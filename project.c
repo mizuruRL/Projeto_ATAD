@@ -29,3 +29,26 @@ void commandShow(){
     
 }
 
+void commandTop5(){
+    
+}
+
+void commandOldest(){
+    
+}
+
+void commandGrowth(){
+
+}
+
+void commandMatrix(){
+    
+}
+
+void commandRegions(){
+    
+}
+
+void commandReport(){
+    
+}

@@ -1,8 +1,8 @@
 ﻿/* PROJETO  ATAD 2019-20
 * Identificacao dos Alunos:
 *
-*      Numero: ######### | Nome: ###############################
-*      Numero: ######### | Nome: ###############################
+*      Numero: 190221068 | Nome: André Dias
+*      Numero: 190221029 | Nome: Tomás Barroso
 *
 */
 
@@ -10,22 +10,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+#include "project.h"
+#include "patient.h"
+
 
 typedef char String[255];
 
-/* definicao de prototipos de funcoes, definidas depois do main() */
 int equalsStringIgnoreCase(char str1[], char str2[]);
 void printCommandsMenu();
-//...
 
-/*
-* Descrição do Programa
-*/
 int main(int argc, char** argv) {
 
-	/* declaracao de variaveis */
-
-	/* interpretador de comandos */
 	String command;
 	int quit = 0;
 
@@ -34,56 +29,50 @@ int main(int argc, char** argv) {
 		
 		printCommandsMenu();
 		fgets(command, sizeof(command), stdin);
-		/* descartar 'newline'. Utilizar esta técnica sempre que for lida uma
-		* string para ser utilizada, e.g., nome de ficheiro, chave, etc.. */
 		command[strlen(command) - 1] = '\0';
         
 		if (equalsStringIgnoreCase(command, "QUIT")) {
-			quit = 1; /* vai provocar a saída do interpretador */	
+			quit = 1;
 			printf("Goodbye!\n");			
 		}
 		else if (equalsStringIgnoreCase(command, "LOAD")) {
-			/* invocação da função responsável pela respetiva
-			funcionalidade. Remover printf seguinte após implementação */
-			printf("Comando LOAD nao implementado.\n");
+			commandLoad();
 		}
 		else if (equalsStringIgnoreCase(command, "LOADR")) {
-			/* invocação da função responsável pela respetiva
-			funcionalidade. Remover printf seguinte após implementação */
-			printf("Comando LOADR nao implementado.\n");
+			commandLoadR();
 		}
 		else if (equalsStringIgnoreCase(command, "CLEAR")) {
-			printf("Comando CLEAR nao implementado.\n");
+			commandClear();
 		}
 		else if (equalsStringIgnoreCase(command, "AVERAGE")) {
-			printf("Comando AVERAGE nao implementado.\n");
+			commandAverage();
 		}
 		else if (equalsStringIgnoreCase(command, "FOLLOW")) {
-			printf("Comando FOLLOW nao implementado.\n");
+			commandFollow();
 		}
 		else if (equalsStringIgnoreCase(command, "SEX")) {
-			printf("Comando SEX nao implementado.\n");
+			commandSex();
 		}
 		else if (equalsStringIgnoreCase(command, "SHOW")) {
-			printf("Comando SHOW nao implementado.\n");
+			commandShow();
 		}
 		else if (equalsStringIgnoreCase(command, "TOP5")) {
-			printf("Comando TOP5 nao implementado.\n");
+			commandTop5();
 		}
 		else if (equalsStringIgnoreCase(command, "OLDEST")) {
-			printf("Comando OLDEST nao implementado.\n");
+			commandOldest();
 		}
 		else if (equalsStringIgnoreCase(command, "GROWTH")) {
-			printf("Comando GROWTH nao implementado.\n");
+			commandGrowth();
 		}	
 		else if (equalsStringIgnoreCase(command, "MATRIX")) {
-			printf("Comando MATRIX nao implementado.\n");
+			commandMatrix();
 		}
 		else if (equalsStringIgnoreCase(command, "REGIONS")) {
-			printf("Comando REGIONS nao implementado.\n");
+			commandRegions();
 		}	
 		else if (equalsStringIgnoreCase(command, "REPORT")) {
-			printf("Comando REPORT nao implementado.\n");
+			commandReport();
 		}
 		else {
 			printf("%s : Comando não encontrado.\n", command);
@@ -95,14 +84,12 @@ int main(int argc, char** argv) {
 	return (EXIT_SUCCESS);
 }
 
-int equalsStringIgnoreCase(char str1[], char str2[]) {
-	/* Apenas faz uma comparacao utilizando o strcmp.
-	* Necessita de modificacao para obter uma comparacao
-	* 'case insensitive' */
-	return (strcmp(str1, str2) == 0);
+int equalsStringIgnoreCase(char* str1, char* str2) {
+	return (strcasecmp(str1, str2) == 0);
 }
 
 void printCommandsMenu() {
+	system("clear");
 	printf("\n===================================================================================");
 	printf("\n                          PROJECT: COVID-19                    ");
 	printf("\n===================================================================================");
