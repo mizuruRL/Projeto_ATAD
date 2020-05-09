@@ -1,4 +1,7 @@
+void clean();
+
 void commandLoad();
+
 
 void commandLoadR();
 

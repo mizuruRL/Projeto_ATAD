@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "mapElem.h"
+#include "valueElem.h"
 
 int findIndexOfKey(PtMap map, MapKey key) {
 	if (map == NULL) return -1;
