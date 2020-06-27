@@ -15,6 +15,8 @@ typedef struct patient{
     char status[10]; // {“isolated, “released”, “deceased”}
 } Patient;
 
+typedef struct patient *PtPatient;
+
 Patient createPatient(int id, char *sex, int birthYear, char* country, char* region, char* infectionReason, int infectedBy, Date confirmedDate, Date releasedDate, Date deceasedDate, char* status);
 void printPatient(Patient p);
 int getAge(Patient p);

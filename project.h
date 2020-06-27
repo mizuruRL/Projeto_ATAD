@@ -1,21 +1,14 @@
-#include "list.h"
-#include "map.h"
-
-typedef char String[255];
+#include "utils.h"
 
 void menu();
 
-int equalsStringIgnoreCase(char str1[], char str2[]);
+void commandLoadP(PtList *patients);
 
-void printCommandsMenu();
+void commandLoadR(PtMap *regions);
 
-void commandLoadP();
+void commandClear(PtList patients, PtMap regions);
 
-void commandLoadR();
-
-void commandClear();
-
-void commandQuit();
+int commandQuit(PtList *patients, PtMap *regions);
 
 void commandAverage();
 

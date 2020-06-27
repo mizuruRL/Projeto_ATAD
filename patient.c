@@ -1,22 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include "patient.h"
 
 Patient createPatient(int id, char* sex, int birthYear, char* country, char* region, char* infectionReason, int infectedBy, Date confirmedDate, Date releasedDate, Date deceasedDate, char* status){
-    Patient patient = {id,sex,birthYear,country,region,infectionReason,infectedBy,{confirmedDate.day,confirmedDate.month,confirmedDate.year},{releasedDate.day,releasedDate.month,releasedDate.year},{deceasedDate.day,deceasedDate.month,deceasedDate.year},status};
+    if(birthYear == 0) birthYear = -1;
+    if(infectedBy == 0) infectedBy = -1;
+    if(!strcmp(sex, "")) sex = "";
+    if(!strcmp(country, "")) country = "";
+    if(!strcmp(region, "")) region = "";
+    if(!strcmp(infectionReason, "")) infectionReason = "";
+    if(!strcmp(status, "")) status = "";
+    Patient patient;
+    patient.id = id;
+    strcpy(patient.sex, sex);
+    patient.birthYear = birthYear;
+    strcpy(patient.country, country);
+    strcpy(patient.infectionReason, infectionReason);
+    patient.infectedBy = infectedBy;
+    strcpy(patient.status, status); 
+    patient.releasedDate = releasedDate;
+    patient.confirmedDate = confirmedDate;
+    patient.deceasedDate = deceasedDate;
     return patient;
 }
 
 void printPatient(Patient p){
 
     printf("###############  Patient  ###############\n\n");
-    printf("ID: \n",p.id);
-    printf("SEX: \n",p.sex);
-    printf("AGE: \n",getAge(p));
+    printf("ID: %d\n",p.id);
+    printf("SEX: %s\n",p.sex);
+    printf("AGE: %d\n",getAge(p));
     printf("COUNTRY/REGION: %s/%s \n",p.country,p.region);
-    printf("INFECTION REASON: \n",p.infectionReason);
-    printf("STATE: \n",p.status);
+    printf("INFECTION REASON: %s\n",p.infectionReason);
+    printf("STATE: %s\n",p.status);
     printf("NUMBER OF DAYS WITH ILLNESS: %d\n\n",getNumberOfInfectedDays(p));
     printf("#########################################\n");
 }
