@@ -1,17 +1,21 @@
-#include "date.h"
-void clean();
+#include "list.h"
+#include "map.h"
+
+typedef char String[255];
+
+void menu();
+
+int equalsStringIgnoreCase(char str1[], char str2[]);
 
 void printCommandsMenu();
 
-int equalsStringIgnoreCase(char* str1, char* str2);
-
-void appStart();
-
-void commandLoad();
+void commandLoadP();
 
 void commandLoadR();
 
 void commandClear();
+
+void commandQuit();
 
 void commandAverage();
 
@@ -32,7 +36,3 @@ void commandMatrix();
 void commandRegions();
 
 void commandReport();
-
-const char* getfield(char* line, int num);
-
-void setupPatients(char* arr);

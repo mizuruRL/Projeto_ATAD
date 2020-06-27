@@ -736,7 +736,7 @@ patient_id;sex;birth_year;country;province;infection_case;infected_by;confirmed_
 1200000088;female;1979;Korea;Daegu;;;20/02/2020;;;isolated
 1200000089;female;1996;Korea;Daegu;;;20/02/2020;;;isolated
 1200000090;female;1979;Korea;Daegu;;;20/02/2020;;;isolated
-1200000114;male;1946;Korea;Daegu;Shincheonji Church;;21/02/2020;;26/02/2020;deceased
+1200000114;male;1946;Korea;Daegu;Shincheonji Church;;21/02/2020;;23/02/2020;deceased
 1200000620;male;1949;Korea;Daegu;;;24/02/2020;;02/03/2020;deceased
 1200000901;female;1934;Korea;Daegu;;;25/02/2020;;04/03/2020;deceased
 1200001064;female;1943;Korea;Daegu;;;26/02/2020;;01/03/2020;deceased
@@ -2390,7 +2390,7 @@ patient_id;sex;birth_year;country;province;infection_case;infected_by;confirmed_
 6001000562;female;1935;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;;isolated
 6001000563;female;1929;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;;isolated
 6001000564;female;1932;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;;isolated
-6001000565;male;1928;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;02/04/2020;deceased
+6001000565;male;1928;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;03/05/2020;deceased
 6001000566;male;1934;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;;isolated
 6001000567;male;1930;Korea;Gyeongsangbuk-do;;;20/03/2020;;27/03/2020;deceased
 6001000568;male;1939;Korea;Gyeongsangbuk-do;;;20/03/2020;;25/03/2020;deceased
@@ -2398,8 +2398,8 @@ patient_id;sex;birth_year;country;province;infection_case;infected_by;confirmed_
 6001000570;female;1940;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;;isolated
 6001000571;female;1934;Korea;Gyeongsangbuk-do;;;20/03/2020;;29/03/2020;deceased
 6001000572;male;1942;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;03/04/2020;deceased
-6001000573;male;1941;Korea;Gyeongsangbuk-do;;;20/03/2020;;25/03/2020;deceased
-6001000574;male;1944;Korea;Gyeongsangbuk-do;;;20/03/2020;;24/03/2020;deceased
+6001000573;male;1941;Korea;Gyeongsangbuk-do;;;20/03/2020;;24/03/2020;deceased
+6001000574;male;1944;Korea;Gyeongsangbuk-do;;;20/03/2020;;25/03/2020;deceased
 6001000575;male;1962;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;;isolated
 6001000576;male;1942;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;;isolated
 6001000577;male;1947;Korea;Gyeongsangbuk-do;etc;;20/03/2020;;;isolated

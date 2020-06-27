@@ -10,4 +10,4 @@ typedef struct region{
 
 Region createRegion(char* name, char* capital, float area);
 
-void printRegion(Region *r);
+void printRegion(Region r);

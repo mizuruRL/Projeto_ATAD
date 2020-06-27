@@ -11,7 +11,6 @@
 #include <string.h>
 #include <locale.h>
 #include "project.h"
-#include "patient.h"
 
 
 int main(int argc, char** argv) {

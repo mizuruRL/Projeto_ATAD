@@ -1,52 +1,27 @@
+/**
+ * @file listElem.h
+ * @brief Defines the type ListElem.
+ * 
+ * The ListElem is an alias to the type of elements 
+ * held by an instance of the ADT List (PtList).
+ * 
+ * This alias must be changed according to the use-case.
+ * 
+ * @author Bruno Silva (brunomnsilva@gmail.com)
+ * @bug No known bugs.
+ */
 
 #pragma once
+#include "patient.h"
+/** Type definition. Change according to the use-case. */
+typedef Patient ListElem;
 
-#define LIST_OK				0
-#define LIST_NULL			1
-#define LIST_NO_MEMORY		2
-#define LIST_EMPTY			3
-#define LIST_FULL			4
-#define LIST_INVALID_RANK	5
-
-#include <stdbool.h>
-#include "ListElem.h"
-
-#pragma once
-
-
-typedef ListElem ListElem;
-
-typedef struct listImpl {
-	ListElem* elements;
-	int size; 
-	int capacity;
-
-} ListImpl;
-
-struct listImpl;
-
-typedef struct listImpl *PtList;
-
-bool ensureCapacity(PtList list);
-
-PtList listCreate(unsigned int initialCapacity);
-
-int listDestroy(PtList *ptList);
-
-int listAdd(PtList list, int rank, ListElem elem);
-
-int listRemove(PtList list, int rank, ListElem *ptElem);
-
-int listGet(PtList list, int rank, ListElem *ptElem);
-
-int listSet(PtList list, int rank, ListElem elem, ListElem *ptOldElem);
-
-int listSize(PtList list, int *ptSize);
-
-bool listIsEmpty(PtList list);
-
-int listClear(PtList list);
-
-void listPrint(PtList list);
-
+/**
+ * @brief Prints an element.
+ * 
+ * Must be implemented according to type
+ * of defined for ListElem.
+ * 
+ * @param elem [in] element to print
+ */
 void listElemPrint(ListElem elem);

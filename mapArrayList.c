@@ -1,9 +1,39 @@
+/**
+ * @file mapArrayList.c
+ * 
+ * @brief Provides an implementation of the ADT Map with an array list
+ * as the underlying data structure.
+ * 
+ * @author Bruno Silva (brunomnsilva@gmail.com)
+ * @bug No known bugs.
+ */
+
+#include "map.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
-#include "valueElem.h"
 
-int findIndexOfKey(PtMap map, MapKey key) {
+typedef struct keyValue {
+	MapKey key;
+	MapValue value;
+} KeyValue;
+
+typedef struct mapImpl {
+	KeyValue *elements;
+	int capacity;
+	int size;
+} MapImpl;
+
+/**
+ * @brief Auxiliary function to find the index of a specific key. 
+ * 
+ * Keys are compared by using mapKeyEquals function.
+ * 
+ * @param map [in] pointer to the map
+ * @param key [in] key to find
+ * @return index of 'elements' containing 'key', or
+ * @return -1 if no index contains 'key'
+ */
+static int findIndexOfKey(PtMap map, MapKey key) {
 	if (map == NULL) return -1;
 
 	for (int i = 0; i < map->size; i++) {
@@ -14,7 +44,7 @@ int findIndexOfKey(PtMap map, MapKey key) {
 	return -1;
 }
 
-bool ensureCapacity(PtMap map) {
+static bool ensureCapacity(PtMap map) {
 	if (map->size == map->capacity) {
 		int newCapacity = map->capacity * 2;
 		KeyValue* newArray = (KeyValue*) realloc( map->elements, 
@@ -91,6 +121,12 @@ int mapRemove(PtMap map, MapKey key, MapValue *ptValue) {
 	return MAP_OK;
 }
 
+bool mapContains(PtMap map, MapKey key) {
+	if (map == NULL) return 0;
+
+	return findIndexOfKey(map, key) != -1;
+}
+
 int mapGet(PtMap map, MapKey key, MapValue *ptValue) {
 	if (map == NULL) return MAP_NULL;
 	if (map->size == 0) return MAP_EMPTY;
@@ -101,12 +137,6 @@ int mapGet(PtMap map, MapKey key, MapValue *ptValue) {
 	*ptValue = map->elements[index].value;
 	
 	return MAP_OK;
-}
-
-bool mapContains(PtMap map, MapKey key) {
-	if (map == NULL) return 0;
-
-	return findIndexOfKey(map, key) != -1;
 }
 
 MapKey* mapKeys(PtMap map) {
@@ -164,16 +194,4 @@ void mapPrint(PtMap map) {
 			mapValuePrint(map->elements[i].value);
 		}
 	}
-}
-
-void mapKeyPrint(MapKey key) {
-	printf("%d \n", key);
-}
-
-void mapValuePrint(MapValue value) {
-	printRegion(&value);
-}
-
-bool mapKeyEquals(MapKey key1, MapKey key2) {
-	return (key1 == key2); 
 }
