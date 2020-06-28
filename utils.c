@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "utils.h"
+
 
 int equalsStringIgnoreCase(char str1[], char str2[]) {
 	/* Apenas faz uma comparacao utilizando o strcmp.
@@ -58,13 +60,9 @@ void importPatientsFromFile(char *filename, PtList *patients) {
         }
 
         char **tokens = split(nextline, 11, ";");
-        /*
-		TODO: date code.
-        */
-        Date d;
-        d = createDate(2,2,2002);
+    
         Patient p;
-        p = createPatient(atoi(tokens[0]), tokens[1], atoi(tokens[2]), tokens[3], tokens[4], tokens[5], atoi(tokens[6]), d, d, d, tokens[10]);
+        p = createPatient(atoi(tokens[0]), tokens[1], atoi(tokens[2]), tokens[3], tokens[4], tokens[5], atoi(tokens[6]), stringToDate(tokens[7]), stringToDate(tokens[8]), stringToDate(tokens[9]), tokens[10]);
 
         free(tokens);
 
@@ -131,4 +129,16 @@ void importRegionsFromFile(char *filename, PtMap *regions) {
 
     printf("\n%d Regions were read!\n\n", countP);
     fclose(f);
+}
+
+Date stringToDate(char *str) {
+    Date date;
+    if(strcmp(str, "")){
+        char **dateToken = split(str,3,"/");
+        date = createDate(atoi(dateToken[0]),atoi(dateToken[1]),atoi(dateToken[2]));
+        free(dateToken);
+    }else{
+        date = createDate(0,0,0);
+    }
+    return date;
 }

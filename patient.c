@@ -7,11 +7,11 @@
 Patient createPatient(int id, char* sex, int birthYear, char* country, char* region, char* infectionReason, int infectedBy, Date confirmedDate, Date releasedDate, Date deceasedDate, char* status){
     if(birthYear == 0) birthYear = -1;
     if(infectedBy == 0) infectedBy = -1;
-    if(!strcmp(sex, "")) sex = "";
-    if(!strcmp(country, "")) country = "";
-    if(!strcmp(region, "")) region = "";
-    if(!strcmp(infectionReason, "")) infectionReason = "";
-    if(!strcmp(status, "")) status = "";
+    if(stringIsBlank(sex)) sex = "";
+    if(stringIsBlank(country)) country = "";
+    if(stringIsBlank(region)) region = "";
+    if(stringIsBlank(infectionReason)) infectionReason = "";
+    if(stringIsBlank(status)) status = "";
     Patient patient;
     patient.id = id;
     strcpy(patient.sex, sex);
@@ -90,4 +90,15 @@ int getDifference(Date old, Date recent){
     countDays = recent.day - old.day; 
 
     return countYears + countMonths + countDays;
+}
+
+int stringIsBlank(char *str) {
+    int i = 0;
+    while (str[i] != '\0')
+    {
+        if(str[i] != ' ')
+        return 0;
+        i++;
+    }
+    return 1;
 }

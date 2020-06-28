@@ -4,3 +4,4 @@ typedef struct date {
 
 Date createDate(int day, int month, int year);
 void printDate(Date date);
+Date stringToDate(char *str);

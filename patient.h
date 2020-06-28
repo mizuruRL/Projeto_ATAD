@@ -22,3 +22,4 @@ void printPatient(Patient p);
 int getAge(Patient p);
 int getNumberOfInfectedDays(Patient p);
 int getDifference(Date old, Date recent);
+int stringIsBlank(char *str);
