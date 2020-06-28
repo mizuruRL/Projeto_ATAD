@@ -61,7 +61,7 @@ void importPatientsFromFile(char *filename, PtList *patients) {
         char **tokens = split(nextline, 11, ";");
     
         Patient p;
-        p = createPatient(atoi(tokens[0]), tokens[1], atoi(tokens[2]), tokens[3], tokens[4], tokens[5], atoi(tokens[6]), stringToDate(tokens[7]), stringToDate(tokens[8]), stringToDate(tokens[9]), tokens[10]);
+        p = createPatient(atol(tokens[0]), tokens[1], atoi(tokens[2]), tokens[3], tokens[4], tokens[5], atol(tokens[6]), stringToDate(tokens[7]), stringToDate(tokens[8]), stringToDate(tokens[9]), tokens[10]);
 
         free(tokens);
 
@@ -72,6 +72,7 @@ void importPatientsFromFile(char *filename, PtList *patients) {
             printf("An error ocurred... Please try again... \n");
             return;
         }
+        
         countP++;
     }
 
@@ -111,13 +112,9 @@ void importRegionsFromFile(char *filename, PtMap *regions) {
         }
 
         char **tokens = split(nextline, 4, ";");
-
-        Region r = createRegion(tokens[0], tokens[1], (float) atof(tokens[2]), atoi(tokens[3]));
-
+        //not working
+        int error_code = mapPut(*regions, tokens[0], createRegion(tokens[0], tokens[1], stringToNumber(tokens[2], 1), (int)stringToNumber(tokens[3],getCommas(tokens[3]))));
         free(tokens);
-
-        int error_code = mapPut(*regions, r.name, r);
-
         if(error_code == MAP_FULL || error_code == MAP_UNKNOWN_KEY || error_code == MAP_NO_MEMORY || error_code == MAP_NULL)
         {
             printf("An error ocurred... Please try again... \n");
@@ -140,4 +137,43 @@ Date stringToDate(char *str) {
         date = createDate(0,0,0);
     }
     return date;
+}
+
+float stringToNumber(char *str, int nComma) {
+    char number[50] = "0";
+    char **tokens = split(str,nComma + 1,",");
+    for(int i = 0; i < nComma + 1; i++) {
+        if(tokens[i] != NULL) {
+            strcat(number, tokens[i]);
+        }
+    }
+    free(tokens);
+   
+    return atof(number);
+}
+
+int getCommas(char *str) {
+    int i = 0;
+    int commas = 0;
+    while(str[i] != '\n') {
+        if(str[i] == ',') commas++;
+        i++;
+    }
+    return commas;
+}
+
+int listGetById(PtList list, long int id, ListElem *ptElem){
+    if (list == NULL) return LIST_NULL;
+    int size;
+    listSize(list,&size);
+    for(int i = 0; i < size; i++){
+        Patient patient;
+        listGet(list,i,&patient);
+        if(patient.id == id){
+            *ptElem = patient;
+            return LIST_OK;
+        }
+    }
+
+    return LIST_INVALID_RANK;
 }

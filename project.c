@@ -43,16 +43,90 @@ int commandQuit(PtList *patients, PtMap *regions) {
     return 1;
 }
 
-void commandAverage(){
+void commandAverage(PtList list){
+    int patientsListSize = 0,countDeceasedAges = 0,countDeceasedTotal = 0,
+    countReleasedAges = 0,countReleasedTotal = 0,countIsolatedAges = 0,countIsolatedTotal = 0, age = 0;
+
+    if(list == NULL) return;
+
+    listSize(list,&patientsListSize);
+    if(patientsListSize == 0) return;
+	Patient patient;
+    for(int i = 0; i < patientsListSize; i++){
+        
+        listGet(list,i,&patient);
+		age = getAge(patient);
+        if(age != -1){
+            if(strcmp(patient.status,"released\n") == 0){
+                        countReleasedTotal++;
+                        countReleasedAges+=getAge(patient);
+            }else if(strcmp(patient.status,"isolated\n") == 0){
+                        countIsolatedTotal++;
+                        countIsolatedAges+=getAge(patient);
+            }else if(strcmp(patient.status,"deceased\n") == 0){
+                        countDeceasedTotal++;
+                        countDeceasedAges+=getAge(patient);
+            }
+        }
+    }
     
+    printf("\nAverage Age for deceased patients: %.0f\n",(double)countDeceasedAges/(double)countDeceasedTotal);
+    printf("\nAverage Age for released patients: %.0f\n",(double)countReleasedAges/(double)countReleasedTotal);
+    printf("\nAverage Age for isolated patients: %.0f\n",(double)countIsolatedAges/(double)countIsolatedTotal);
 }
 
-void commandFollow(){
-    
+void commandFollow(PtList list, long int id){
+    Patient patient;
+    int errorcode = listGetById(list,id,&patient);
+    if(errorcode == LIST_INVALID_RANK){
+        printf("Id not found");
+    }else{
+        printf("\nFollowing Patient: ID:%ld, SEX: %s, AGE: %d, COUNTRY/REGION: %s / %s, STATE: %s\n",patient.id,patient.sex,getAge(patient),patient.country,patient.region,patient.status);
+        
+        long int idContamined = patient.infectedBy;
+        z:
+        if(idContamined > 0){
+            errorcode = listGetById(list,idContamined,&patient);
+            
+            if(errorcode != LIST_INVALID_RANK) {
+                printf("\nContaminated by Patient: ID:%ld, SEX: %s, AGE: %d, COUNTRY/REGION: %s / %s, STATE: %s",patient.id,patient.sex,getAge(patient),patient.country,patient.region,patient.status);
+            idContamined = patient.infectedBy;
+            } else {
+                printf("Contaminated by patient: %ld : does not exist record\n", idContamined);
+                idContamined = -1;
+            }
+            goto z;
+        }else{
+            printf("Contaminated by Unknown\n");
+        }
+    }
 }
 
-void commandSex(){
-    
+void commandSex(PtList list){
+    int size = 0,maleCount = 0,femaleCount = 0,unknownCount = 0;
+    listSize(list,&size);
+    Patient patient;
+    for(int i = 0; i < size; i++){
+        listGet(list,i,&patient);
+        if(strcmp(patient.sex,"male") == 0){
+            maleCount++;
+        }
+        else if(strcmp(patient.sex,"female") == 0){
+            femaleCount++;
+        }
+        else{
+            unknownCount++;
+        }
+    }
+
+    double femaleAv = ((double)femaleCount/(double)size)*100;
+    double maleAv = ((double)maleCount/(double)size)*100;
+    double unknownAv = ((double)unknownCount/(double)size)*100;
+    printf("\nPercentage of Females: %.0f",femaleAv);
+    printf("\nPercentage of Males: %.0f ",maleAv);
+    printf("\nPercentage of unknown: %.0f ",unknownAv);
+    printf("\nTotal of patients: %d\n",size);
+
 }
 
 void commandShow(){

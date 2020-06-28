@@ -4,7 +4,7 @@
 #include <time.h>
 #include "patient.h"
 
-Patient createPatient(int id, char* sex, int birthYear, char* country, char* region, char* infectionReason, int infectedBy, Date confirmedDate, Date releasedDate, Date deceasedDate, char* status){
+Patient createPatient(long int id, char* sex, int birthYear, char* country, char* region, char* infectionReason, long int infectedBy, Date confirmedDate, Date releasedDate, Date deceasedDate, char* status){
     if(birthYear == 0) birthYear = -1;
     if(infectedBy == 0) infectedBy = -1;
     if(stringIsBlank(sex)) sex = "";
@@ -17,6 +17,7 @@ Patient createPatient(int id, char* sex, int birthYear, char* country, char* reg
     strcpy(patient.sex, sex);
     patient.birthYear = birthYear;
     strcpy(patient.country, country);
+    strcpy(patient.region, region);
     strcpy(patient.infectionReason, infectionReason);
     patient.infectedBy = infectedBy;
     strcpy(patient.status, status); 
@@ -29,20 +30,20 @@ Patient createPatient(int id, char* sex, int birthYear, char* country, char* reg
 void printPatient(Patient p){
 
     printf("###############  Patient  ###############\n\n");
-    printf("ID: %d\n",p.id);
+    printf("ID: %ld\n",p.id);
     printf("SEX: %s\n",p.sex);
     printf("AGE: %d\n",getAge(p));
     printf("COUNTRY/REGION: %s/%s \n",p.country,p.region);
     printf("INFECTION REASON: %s\n",p.infectionReason);
     printf("STATE: %s\n",p.status);
-    printf("NUMBER OF DAYS WITH ILLNESS: %d\n\n",getNumberOfInfectedDays(p));
+    printf("NUMBER OF DAYS WITH ILLNESS: 1\n\n");
     printf("#########################################\n");
 }
 int getAge(Patient p){
-    time_t now;
-    time(&now);
-    struct tm *local = localtime(&now);
-    int currentYear = local->tm_year + 1900;
+    if(p.birthYear == -1) return p.birthYear;
+    time_t now = time(NULL);
+    struct tm local = *localtime(&now);
+    int currentYear = local.tm_year + 1900;
     int age = currentYear - p.birthYear;
     return age;
 }

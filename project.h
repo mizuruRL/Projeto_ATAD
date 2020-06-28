@@ -10,11 +10,11 @@ void commandClear(PtList patients, PtMap regions);
 
 int commandQuit(PtList *patients, PtMap *regions);
 
-void commandAverage();
+void commandAverage(PtList list);
 
-void commandFollow();
+void commandFollow(PtList list, long int id);
 
-void commandSex();
+void commandSex(PtList list);
 
 void commandShow();
 

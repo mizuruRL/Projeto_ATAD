@@ -13,8 +13,6 @@
 #include "project.h"
 
 
-typedef char String[255];
-
 int main(int argc, char** argv){
     String command;
 	int quit = 0;
@@ -35,23 +33,28 @@ int main(int argc, char** argv){
 		}
 		else if (equalsStringIgnoreCase(command, "LOADP")) {
 			commandLoadP(&patients);
+			listPrint(patients);
 		}
 		else if (equalsStringIgnoreCase(command, "LOADR")) {
-			/* invocação da função responsável pela respetiva
-			funcionalidade. Remover printf seguinte após implementação */
 			commandLoadR(&regions);
+			mapPrint(regions);
 		}
 		else if (equalsStringIgnoreCase(command, "CLEAR")) {
 			commandClear(patients, regions);
 		}
 		else if (equalsStringIgnoreCase(command, "AVERAGE")) {
-			printf("Comando AVERAGE nao implementado.\n");
+			commandAverage(patients);
 		}
 		else if (equalsStringIgnoreCase(command, "FOLLOW")) {
-			printf("Comando FOLLOW nao implementado.\n");
+			String id;
+            printf("\nChoose id of the patient you want to follow > ");
+			fgets(id, sizeof(id), stdin);
+			command[strlen(command) - 1] = '\0';
+
+            commandFollow(patients,atol(id));
 		}
 		else if (equalsStringIgnoreCase(command, "SEX")) {
-			printf("Comando SEX nao implementado.\n");
+			commandSex(patients);
 		}
 		else if (equalsStringIgnoreCase(command, "SHOW")) {
 			printf("Comando SHOW nao implementado.\n");
@@ -78,6 +81,5 @@ int main(int argc, char** argv){
 			printf("%s : Comando não encontrado.\n", command);
 		}
 	}
-	
 	return (EXIT_SUCCESS);
 }
