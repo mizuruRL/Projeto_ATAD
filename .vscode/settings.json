@@ -2,6 +2,10 @@
     "files.associations": {
         "stdbool.h": "c",
         "valueelem.h": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c"
     }
 }

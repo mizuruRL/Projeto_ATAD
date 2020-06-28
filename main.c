@@ -47,7 +47,7 @@ int main(int argc, char** argv){
 		}
 		else if (equalsStringIgnoreCase(command, "FOLLOW")) {
 			String id;
-            printf("\nChoose id of the patient you want to follow > ");
+            printf("\nChoose the id of the patient you want to follow > ");
 			fgets(id, sizeof(id), stdin);
 			command[strlen(command) - 1] = '\0';
 
@@ -57,7 +57,12 @@ int main(int argc, char** argv){
 			commandSex(patients);
 		}
 		else if (equalsStringIgnoreCase(command, "SHOW")) {
-			printf("Comando SHOW nao implementado.\n");
+			String id;
+            printf("\nChoose the id of the patient you want to show > ");
+			fgets(id, sizeof(id), stdin);
+			command[strlen(command) - 1] = '\0';
+
+			commandShow(patients,atol(id));
 		}
 		else if (equalsStringIgnoreCase(command, "TOP5")) {
 			printf("Comando TOP5 nao implementado.\n");

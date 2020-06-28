@@ -16,7 +16,7 @@ void commandFollow(PtList list, long int id);
 
 void commandSex(PtList list);
 
-void commandShow();
+void commandShow(PtList list, long int id);
 
 void commandTop5();
 

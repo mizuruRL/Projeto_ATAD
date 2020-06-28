@@ -163,9 +163,17 @@ int getCommas(char *str) {
 }
 
 int listGetById(PtList list, long int id, ListElem *ptElem){
-    if (list == NULL) return LIST_NULL;
     int size;
-    listSize(list,&size);
+    int error = listSize(list,&size);
+    if(error == LIST_NULL) {
+        return error;
+    }
+
+    if(size == 0) {
+        error = LIST_EMPTY;
+        return error;
+    }
+    
     for(int i = 0; i < size; i++){
         Patient patient;
         listGet(list,i,&patient);

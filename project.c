@@ -47,10 +47,18 @@ void commandAverage(PtList list){
     int patientsListSize = 0,countDeceasedAges = 0,countDeceasedTotal = 0,
     countReleasedAges = 0,countReleasedTotal = 0,countIsolatedAges = 0,countIsolatedTotal = 0, age = 0;
 
-    if(list == NULL) return;
+    int errorcode = listSize(list,&patientsListSize);
+    
+    if(errorcode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
 
-    listSize(list,&patientsListSize);
-    if(patientsListSize == 0) return;
+    if(patientsListSize == 0) {
+        printf("Patients list is empty");
+        return;
+    }
+
 	Patient patient;
     for(int i = 0; i < patientsListSize; i++){
         
@@ -78,34 +86,57 @@ void commandAverage(PtList list){
 void commandFollow(PtList list, long int id){
     Patient patient;
     int errorcode = listGetById(list,id,&patient);
+    
+    if(errorcode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(errorcode == LIST_EMPTY) {
+        printf("Patients list is empty");
+        return;
+    }
+
     if(errorcode == LIST_INVALID_RANK){
         printf("Id not found");
-    }else{
-        printf("\nFollowing Patient: ID:%ld, SEX: %s, AGE: %d, COUNTRY/REGION: %s / %s, STATE: %s\n",patient.id,patient.sex,getAge(patient),patient.country,patient.region,patient.status);
+        return;
+    }
+
+    printf("\nFollowing Patient: ID:%ld, SEX: %s, AGE: %d, COUNTRY/REGION: %s / %s, STATE: %s\n",patient.id,patient.sex,getAge(patient),patient.country,patient.region,patient.status);
         
-        long int idContamined = patient.infectedBy;
-        z:
-        if(idContamined > 0){
-            errorcode = listGetById(list,idContamined,&patient);
+    long int idContamined = patient.infectedBy;
+    z:
+    if(idContamined > 0){
+        errorcode = listGetById(list,idContamined,&patient);
             
-            if(errorcode != LIST_INVALID_RANK) {
-                printf("\nContaminated by Patient: ID:%ld, SEX: %s, AGE: %d, COUNTRY/REGION: %s / %s, STATE: %s",patient.id,patient.sex,getAge(patient),patient.country,patient.region,patient.status);
-            idContamined = patient.infectedBy;
-            } else {
-                printf("Contaminated by patient: %ld : does not exist record\n", idContamined);
-                idContamined = -1;
-            }
-            goto z;
-        }else{
-            printf("Contaminated by Unknown\n");
+        if(errorcode != LIST_INVALID_RANK) {
+            printf("\nContaminated by Patient: ID:%ld, SEX: %s, AGE: %d, COUNTRY/REGION: %s / %s, STATE: %s",patient.id,patient.sex,getAge(patient),patient.country,patient.region,patient.status);
+        idContamined = patient.infectedBy;
+        } else {
+            printf("Contaminated by patient: %ld : does not exist record\n", idContamined);
+            idContamined = -1;
         }
+        goto z;
+    }else{
+        printf("Contaminated by Unknown\n");
     }
 }
 
 void commandSex(PtList list){
     int size = 0,maleCount = 0,femaleCount = 0,unknownCount = 0;
-    listSize(list,&size);
+    int errorcode = listSize(list,&size);
     Patient patient;
+
+    if(errorcode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(size == 0) {
+        printf("Patients list is empty");
+        return;
+    }
+
     for(int i = 0; i < size; i++){
         listGet(list,i,&patient);
         if(strcmp(patient.sex,"male") == 0){
@@ -119,18 +150,34 @@ void commandSex(PtList list){
         }
     }
 
-    double femaleAv = ((double)femaleCount/(double)size)*100;
-    double maleAv = ((double)maleCount/(double)size)*100;
-    double unknownAv = ((double)unknownCount/(double)size)*100;
-    printf("\nPercentage of Females: %.0f",femaleAv);
-    printf("\nPercentage of Males: %.0f ",maleAv);
-    printf("\nPercentage of unknown: %.0f ",unknownAv);
+    printf("\nPercentage of Females: %.0f%%",((double)femaleCount/(double)size)*100);
+    printf("\nPercentage of Males: %.0f%%",((double)maleCount/(double)size)*100);
+    printf("\nPercentage of unknown: %.0f%% ",((double)unknownCount/(double)size)*100);
     printf("\nTotal of patients: %d\n",size);
 
 }
 
-void commandShow(){
-    
+void commandShow(PtList list, long int id){
+    int errorcode = 0;
+    Patient patient;
+    errorcode = listGetById(list, id, &patient);
+
+    if(errorcode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(errorcode == LIST_EMPTY) {
+        printf("Patients list is empty");
+        return;
+    }
+
+    if(errorcode == LIST_INVALID_RANK){
+        printf("Id not found");
+        return;
+    }
+
+    printPatient(patient);
 }
 
 void commandTop5(){
