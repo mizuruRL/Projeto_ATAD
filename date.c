@@ -18,20 +18,31 @@ void printDate(Date date){
 }
 
 time_t dateToTimeT(Date date){ 
-    time_t now = time(NULL);
-    struct tm d1 = *localtime(&now);
+    struct tm d1;
 
     d1.tm_year = date.year;
     d1.tm_mon = date.month;
     d1.tm_mday = date.day;
+    d1.tm_min = 0;
+    d1.tm_sec = 0;
+    d1.tm_hour = 0;
+    d1.tm_zone = 0;
+    d1.tm_gmtoff = 0;
+    d1.tm_isdst = 0;
+    d1.tm_zone = "gmt";
 
     time_t dateT = mktime(&d1);
     
     return dateT;
 }
 
-int getDayDifference(time_t dateEnd, time_t dateStart) {
+double getDayDifference(time_t dateEnd, time_t dateStart) {
     double difference = difftime(dateEnd, dateStart);
     difference = difference/86400;
-    return (int)difference;
+    return difference - 1;
+}
+
+int dateUnknown(Date date) {
+    if(date.day == 0 && date.month == 0 && date.year == 0) return 1;
+    return 0;
 }

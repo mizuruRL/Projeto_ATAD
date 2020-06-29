@@ -20,5 +20,5 @@ typedef struct patient *PtPatient;
 Patient createPatient(long int id, char *sex, int birthYear, char* country, char* region, char* infectionReason, long int infectedBy, Date confirmedDate, Date releasedDate, Date deceasedDate, char* status);
 void printPatient(Patient p);
 int getAge(Patient p);
-int getNumberOfInfectedDays(Patient p);
+double getNumberOfInfectedDays(Patient p);
 int stringIsBlank(char *str);

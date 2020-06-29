@@ -8,4 +8,5 @@ Date createDate(int day, int month, int year);
 void printDate(Date date);
 Date stringToDate(char *str);
 time_t dateToTimeT(Date date);
-int getDayDifference(time_t dateEnd, time_t dateStart);
+double getDayDifference(time_t dateEnd, time_t dateStart);
+int dateUnknown(Date date);

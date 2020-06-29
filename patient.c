@@ -28,7 +28,7 @@ Patient createPatient(long int id, char* sex, int birthYear, char* country, char
 }
 
 void printPatient(Patient p){
-    int days = getNumberOfInfectedDays(p);
+    double days = getNumberOfInfectedDays(p);
     printf("###############  Patient  ###############\n\n");
     printf("ID: %ld\n",p.id);
     printf("SEX: %s\n",p.sex);
@@ -36,7 +36,7 @@ void printPatient(Patient p){
     printf("COUNTRY/REGION: %s/%s \n",p.country,p.region);
     printf("INFECTION REASON: %s\n",p.infectionReason);
     printf("STATE: %s\n",p.status);
-    printf("NUMBER OF DAYS WITH ILLNESS: %d\n\n", days);
+    printf("NUMBER OF DAYS WITH ILLNESS: %.0f\n\n", days);
     printf("#########################################\n");
 }
 
@@ -49,42 +49,31 @@ int getAge(Patient p){
     return age;
 }
 
-int getNumberOfInfectedDays(Patient p){
-    time_t now = time(NULL);
-    struct tm *local = localtime(&now);
-    int currentDay = local->tm_mday;
-    int currentMonth = local->tm_mon + 1;
-    int currentYear = local->tm_year + 1900;
-
+double getNumberOfInfectedDays(Patient p){
+    
     if(strcmp(p.status, "deceased\n") == 0) {
-        Date old = createDate(p.confirmedDate.day,p.confirmedDate.month,p.confirmedDate.year);
-        Date recent = createDate(p.deceasedDate.day,p.deceasedDate.month,p.deceasedDate.year);
-        time_t d1 = dateToTimeT(old);
-        time_t d2 = dateToTimeT(recent);
-        return getDayDifference(d2, d1) - 1;
+        time_t d1 = dateToTimeT(p.confirmedDate);
+        time_t d2 = dateToTimeT(p.deceasedDate);
+        return getDayDifference(d2, d1);
     }
 
      if(strcmp(p.status, "released\n") == 0) {
-        Date old = createDate(p.confirmedDate.day,p.confirmedDate.month,p.confirmedDate.year);
-        Date recent = createDate(p.releasedDate.day,p.releasedDate.month,p.releasedDate.year);
-        time_t d1 = dateToTimeT(old);
-        time_t d2 = dateToTimeT(recent);
-        return getDayDifference(d2, d1) - 1;
+        time_t d1 = dateToTimeT(p.confirmedDate);
+        time_t d2 = dateToTimeT(p.releasedDate);
+        return getDayDifference(d2, d1);
     }
 
     if(strcmp(p.status, "isolated\n") == 0) {
-        Date old = createDate(p.confirmedDate.day,p.confirmedDate.month,p.confirmedDate.year);
-        Date current = createDate(currentDay,currentMonth,currentYear);
-        time_t d1 = dateToTimeT(old);
-        time_t d2 = dateToTimeT(current);
-        return getDayDifference(d2, d1) - 1;
+        time_t now = time(NULL);
+        time_t d1 = dateToTimeT(p.confirmedDate);
+        return getDayDifference(now, d1);
     }
     return 0;
 }
 
 int stringIsBlank(char *str) {
     int i = 0;
-    while (str[i] != '\0')
+    while (*str != '\0')
     {
         if(str[i] != ' ')
         return 0;

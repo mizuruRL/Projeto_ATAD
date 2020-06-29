@@ -38,7 +38,7 @@ int main(int argc, char** argv){
 		}
 		else if (equalsStringIgnoreCase(command, "LOADR")) {
 			commandLoadR(&regions);
-			mapPrint(regions);
+
 		}
 		else if (equalsStringIgnoreCase(command, "CLEAR")) {
 			commandClear(patients, regions);

@@ -8,6 +8,6 @@ void importRegionsFromFile(char *filename, PtMap *regions);
 Date stringToDate(char *str);
 float stringToNumber(char *str);
 int listGetById(PtList list, long int id, ListElem *ptElem);
-int getRanks(PtList list, int *ranks, int size, int listSize);
+void printTopNReleased(PtList list, int n, int listSize);
 int isRankIgnored(int rank, int *arr, int size);
 int getOldestAgeBySex(PtList list, char *sex, int listSize);

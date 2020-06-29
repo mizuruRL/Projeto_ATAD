@@ -194,15 +194,7 @@ void commandTop5(PtList list){
         return;
     }
 
-    int ignoredRanks[5];
-    Patient p;
-    for (int i = 0; i < 5; i++) {
-        int rank = getRanks(list, ignoredRanks, size, lSize);
-        ignoredRanks[i] = rank;
-        listGet(list, rank, &p);
-        printPatient(p);
-        size++;
-    }
+    printTopNReleased(list, 5, lSize);
 }
 
 void commandOldest(PtList list){

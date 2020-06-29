@@ -180,22 +180,30 @@ int listGetById(PtList list, long int id, ListElem *ptElem){
     return LIST_INVALID_RANK;
 }
 
-int getRanks(PtList list, int *ranks, int size, int listSize) { 
-    Patient patient, patientmax;
+void printTopNReleased(PtList list, int n, int listSize) { 
+    int ranks[n];
+    int size = 0;
     int rank = 0, days, maxdays;
+    Patient patient, patientmax;
+
+    for(int j = 0; j < n; j++) {
     listGet(list, 0, &patientmax);
     for(int i = 0; i < listSize; i++) {
         listGet(list, i, &patient);
-        if(strcmp(patient.status, "released\n") == 0) {
+        if(dateUnknown(patient.releasedDate) == 0) {
             maxdays = getNumberOfInfectedDays(patientmax);
             days = getNumberOfInfectedDays(patient);
-            if(maxdays < days && !isRankIgnored(i, ranks, size)) {
+            if(maxdays < days && isRankIgnored(i, ranks, size) == 0) {
                 patientmax = patient;
                 rank = i;
+                
             }
         }
     }
-    return rank;
+    ranks[j] = rank;
+    size++;
+    printPatient(patientmax);
+    }
 }
 
 int getOldestAgeBySex(PtList list, char *sex, int listSize) {
