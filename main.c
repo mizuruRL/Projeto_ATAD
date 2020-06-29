@@ -78,7 +78,7 @@ int main(int argc, char** argv){
 			printf("Comando MATRIX nao implementado.\n");
 		}
 		else if (equalsStringIgnoreCase(command, "REGIONS")) {
-			printf("Comando REGIONS nao implementado.\n");
+			commandRegions(patients,regions);
 		}	
 		else if (equalsStringIgnoreCase(command, "REPORT")) {
 			printf("Comando REPORT nao implementado.\n");

@@ -247,8 +247,48 @@ void commandMatrix(){
     
 }
 
-void commandRegions(){
+void commandRegions(PtList list, PtMap map){
+    int lSize = 0;
+    int mSize = 0;
     
+    int lerrorCode = listSize(list, &lSize);
+
+    if(lerrorCode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(lSize == 0) {
+        printf("Patients list is empty");
+        return;
+    }
+
+    PtMap newMap = mapCreate(10);
+    char* str[20];
+
+    for(int i = 0; i < lSize; i++){
+        Patient patient;
+        listGet(list,i,&patient);
+        if(strcmp(patient.status,"isolated") == 0){
+            MapValue mapValue;
+            KeyString key = createKey(patient.region);
+            mapGet(map, key, &mapValue);
+            strcpy(str[i],key.content);
+            mSize++;
+        }
+    }
+
+    orderAlphabetically(str,mSize);
+
+    for(int i = 0; i < mSize; i++){
+         KeyString key = createKey(str[i]);
+         MapValue mapValue;
+         mapGet(map,key,&mapValue);
+        mapPut(newMap,key,mapValue);
+    }
+
+    mapPrint(newMap);
+    mapDestroy(&newMap);
 }
 
 void commandReport(){

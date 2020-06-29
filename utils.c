@@ -230,3 +230,13 @@ int isRankIgnored(int rank, int *arr, int size) {
     }
     return 0;
 }
+
+int cmpstr(const void* a, const void* b) {
+    const char* aa = (const char*)a;
+    const char* bb = (const char*)b;
+    return strcmp(aa, bb);
+}
+
+void orderAlphabetically(char* arr[], int size){
+    qsort(arr, size, sizeof(char*), cmpstr);
+}
