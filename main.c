@@ -72,7 +72,11 @@ int main(int argc, char** argv){
 			commandOldest(patients);
 		}
 		else if (equalsStringIgnoreCase(command, "GROWTH")) {
-			printf("Comando GROWTH nao implementado.\n");
+			String date;
+			printf("\nInsert the date you want to compare > ");
+			fgets(date, sizeof(date), stdin);
+			command[strlen(command) - 1] = '\0';
+			commandGrowth(patients, date);
 		}	
 		else if (equalsStringIgnoreCase(command, "MATRIX")) {
 			commandMatrix(patients);

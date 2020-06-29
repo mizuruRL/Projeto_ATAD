@@ -22,7 +22,7 @@ void commandTop5(PtList list);
 
 void commandOldest(PtList list);
 
-void commandGrowth();
+void commandGrowth(PtList list, char* date);
 
 void commandMatrix(PtList list);
 

@@ -190,7 +190,7 @@ void printTopNReleased(PtList list, int n, int listSize) {
     listGet(list, 0, &patientmax);
     for(int i = 0; i < listSize; i++) {
         listGet(list, i, &patient);
-        if(dateUnknown(patient.releasedDate) == 0) {
+        if(getStatus(patient) == 'r') {
             maxdays = getNumberOfInfectedDays(patientmax);
             days = getNumberOfInfectedDays(patient);
             if(maxdays < days && isRankIgnored(i, ranks, size) == 0) {
@@ -265,4 +265,71 @@ int isRankIgnored(int rank, int *arr, int size) {
         if(rank == arr[i]) return 1;
     }
     return 0;
+}
+
+void showGrowth(PtList list, Date date, int listSize) {
+    time_t current = time(NULL);
+    time_t input = dateToTimeT(date);
+
+    if(input > current || dateUnknown(date) != 0) {
+        printf("Invalid date");
+        return;
+    }
+
+    time_t inputbefore = input - 86400;
+    int deathsbefore = 0, isolatedbefore = 0, deaths = 0, isolated = 0;
+    Patient p;
+    for(int i = 0; i < listSize; i++) {
+        listGet(list, i, &p);
+        if(dateUnknown(p.confirmedDate) == 0) {
+            time_t dateP = dateToTimeT(p.confirmedDate);
+            if(input >= dateP) isolated++;
+            if(inputbefore >= dateP) isolatedbefore++;
+        }
+
+        if(dateUnknown(p.deceasedDate) == 0) {
+            time_t dateP = dateToTimeT(p.deceasedDate);
+            if(input >= dateP) deaths++;
+            if(inputbefore >= dateP) deathsbefore++;
+        }
+    }
+    struct tm prevDate = *localtime(&inputbefore);
+    
+    if(deaths == 0 || isolated == 0) {
+        printf("There is no record for date: ");
+        printDate(date);
+        printf("\n");
+        return;
+    }
+    
+    if(deathsbefore == 0 || isolatedbefore == 0) {
+        printf("There is no record for date: %d/%d/%d\n", prevDate.tm_mday, prevDate.tm_mon + 1, prevDate.tm_year + 1900);
+        return;
+    }
+    
+    printf("Date: %d/%d/%d\n", prevDate.tm_mday, prevDate.tm_mon + 1, prevDate.tm_year + 1900);
+
+    printf("Number of deaths: %d\n", deathsbefore);
+    printf("Number of infected: %d\n", isolatedbefore);
+
+    printf("\nDate: ");
+    printDate(date);
+    printf("\n");
+
+    printf("Number of deaths: %d\n", deaths);
+    printf("Number of infected: %d\n", isolated);
+
+    double deathRate = round(getRate(deaths, deathsbefore) * 100);
+    double infectedRate = round(getRate(isolated, isolatedbefore) * 100);
+
+    printf("\nRate of new infected: %.0f%%", infectedRate);
+    printf("\nRate of new deaths: %.0f%%", deathRate);
+}
+
+double getRate(double val1, double val2) {
+    return (val1-val2)/val2;
+}
+
+double getAverage(double val1, double val2) {
+    return val1/val2;
 }

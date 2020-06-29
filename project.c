@@ -86,9 +86,9 @@ void commandAverage(PtList list){
         }
     }
     
-    printf("\nAverage Age for deceased patients: %.0f%%\n",(double)countDeceasedAges/(double)countDeceasedTotal);
-    printf("\nAverage Age for released patients: %.0f%%\n",(double)countReleasedAges/(double)countReleasedTotal);
-    printf("\nAverage Age for isolated patients: %.0f%%\n",(double)countIsolatedAges/(double)countIsolatedTotal);
+    printf("\nAverage Age for deceased patients: %.0f\n", round(getAverage(countDeceasedAges, countDeceasedTotal)));
+    printf("\nAverage Age for released patients: %.0f\n", round(getAverage(countReleasedAges,countReleasedTotal)));
+    printf("\nAverage Age for isolated patients: %.0f\n", round(getAverage(countIsolatedAges, countIsolatedTotal)));
 }
 
 void commandFollow(PtList list, long int id){
@@ -247,8 +247,22 @@ void commandOldest(PtList list){
     }
 }
 
-void commandGrowth(){
+void commandGrowth(PtList list, char* date){
+    int size = 0;
+    int errorCode = listSize(list, &size);
+
+    if(errorCode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(size == 0) {
+        printf("Patients list is empty");
+        return;
+    }
+    Date d = stringToDate(date);
     
+    showGrowth(list, d, size);
 }
 
 void commandMatrix(PtList list){
