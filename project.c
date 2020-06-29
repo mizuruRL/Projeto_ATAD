@@ -7,8 +7,8 @@ void menu() {
 	printf("\n===================================================================================");
 	printf("\n                          PROJECT: COVID-19                    ");
 	printf("\n===================================================================================");
-	printf("\nA. Base Commands (LOAD, LOADR,CLEAR).");
-	printf("\nB. Simple Indicators and searchs (AVERAGE, FOLLOW, MATRIX, OLDEST, RELEASED, SEX, SHOW, TOP5).");
+	printf("\nA. Base Commands (LOADP, LOADR, CLEAR).");
+	printf("\nB. Simple Indicators and searchs (AVERAGE, FOLLOW, MATRIX, OLDEST, GROWTH, SEX, SHOW, TOP5)");
 	printf("\nC. Advanced indicator (REGIONS, REPORTS)");
 	printf("\nD. Exit (QUIT)\n\n");
 	printf("COMMAND> ");
@@ -180,12 +180,71 @@ void commandShow(PtList list, long int id){
     printPatient(patient);
 }
 
-void commandTop5(){
-    
+void commandTop5(PtList list){
+    int lSize = 0, size = 0;
+    int errorCode = listSize(list, &lSize);
+
+    if(errorCode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(lSize == 0) {
+        printf("Patients list is empty");
+        return;
+    }
+
+    int ignoredRanks[5];
+    Patient p;
+    for (int i = 0; i < 5; i++) {
+        int rank = getRanks(list, ignoredRanks, size, lSize);
+        ignoredRanks[i] = rank;
+        listGet(list, rank, &p);
+        printPatient(p);
+        size++;
+    }
 }
 
-void commandOldest(){
-    
+void commandOldest(PtList list){
+    int lSize = 0, size = 0, fAge, mAge;
+    int errorCode = listSize(list, &lSize);
+    Patient p;
+
+    if(errorCode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(lSize == 0) {
+        printf("Patients list is empty");
+        return;
+    }
+
+    mAge = getOldestAgeBySex(list, "male", lSize);
+    fAge = getOldestAgeBySex(list, "female", lSize);
+    int count = 1;
+    printf("\nMales:\n");
+    for(int i = 0; i < lSize; i++) {
+        listGet(list, i, &p);
+        int age = getAge(p);
+        if(age == mAge && strcmp(p.sex, "male") == 0) {
+            printf("%d- ", count);
+            printf("ID: %ld, SEX: %s, AGE: %d, COUNTRY/REGION: %s / %s, STATE: %s\n", p.id, p.sex, age, p.country, p.region, p.status);
+            count++;
+        }
+    }
+
+    count = 1;
+    printf("Females:\n");
+    for(int i = 0; i < lSize; i++) {
+        listGet(list, i, &p);
+        int age = getAge(p);
+        if(age == fAge && strcmp(p.sex, "female") == 0) {
+            printf("%d- ", count);
+            printf("ID: %ld, SEX: %s, AGE: %d, COUNTRY/REGION: %s / %s, STATE: %s\n", p.id, p.sex, age, p.country, p.region, p.status);
+            count++;
+        }
+    }
 }
 
 void commandGrowth(){

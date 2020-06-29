@@ -18,9 +18,9 @@ void commandSex(PtList list);
 
 void commandShow(PtList list, long int id);
 
-void commandTop5();
+void commandTop5(PtList list);
 
-void commandOldest();
+void commandOldest(PtList list);
 
 void commandGrowth();
 

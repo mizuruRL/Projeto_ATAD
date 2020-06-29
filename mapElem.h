@@ -14,13 +14,15 @@
  * @bug No known bugs.
  */
 
+
 #pragma once
 
 #include <stdbool.h>
+#include "key.h"
 #include "region.h"
 
 /** Key type definition. Change according to the use-case. */
-typedef char* MapKey;
+typedef KeyString MapKey;
 
 /** Value type definition. Change according to the use-case. */
 typedef Region MapValue;

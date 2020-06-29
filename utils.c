@@ -112,9 +112,12 @@ void importRegionsFromFile(char *filename, PtMap *regions) {
         }
 
         char **tokens = split(nextline, 4, ";");
-        //not working
-        int error_code = mapPut(*regions, tokens[0], createRegion(tokens[0], tokens[1], stringToNumber(tokens[2], 1), (int)stringToNumber(tokens[3],getCommas(tokens[3]))));
+        
+        Region r = createRegion(tokens[0], tokens[1], stringToNumber(tokens[2]), stringToNumber(tokens[3]));
+        KeyString key = createKey(tokens[0]);
         free(tokens);
+        int error_code = mapPut(*regions, key, r);
+        
         if(error_code == MAP_FULL || error_code == MAP_UNKNOWN_KEY || error_code == MAP_NO_MEMORY || error_code == MAP_NULL)
         {
             printf("An error ocurred... Please try again... \n");
@@ -139,27 +142,18 @@ Date stringToDate(char *str) {
     return date;
 }
 
-float stringToNumber(char *str, int nComma) {
-    char number[50] = "0";
-    char **tokens = split(str,nComma + 1,",");
-    for(int i = 0; i < nComma + 1; i++) {
-        if(tokens[i] != NULL) {
-            strcat(number, tokens[i]);
+float stringToNumber(char *str) {
+    char *initial, *final;
+    final = initial = str;
+    while (*initial != '\0') {
+        if (*initial != ',') {
+            *final++ = *initial;
         }
+        initial++;
     }
-    free(tokens);
-   
-    return atof(number);
-}
-
-int getCommas(char *str) {
-    int i = 0;
-    int commas = 0;
-    while(str[i] != '\n') {
-        if(str[i] == ',') commas++;
-        i++;
-    }
-    return commas;
+    
+    *final = '\0';
+    return atof(str);
 }
 
 int listGetById(PtList list, long int id, ListElem *ptElem){
@@ -184,4 +178,47 @@ int listGetById(PtList list, long int id, ListElem *ptElem){
     }
 
     return LIST_INVALID_RANK;
+}
+
+int getRanks(PtList list, int *ranks, int size, int listSize) { 
+    Patient patient, patientmax;
+    int rank = 0, days, maxdays;
+    listGet(list, 0, &patientmax);
+    for(int i = 0; i < listSize; i++) {
+        listGet(list, i, &patient);
+        if(strcmp(patient.status, "released\n") == 0) {
+            maxdays = getNumberOfInfectedDays(patientmax);
+            days = getNumberOfInfectedDays(patient);
+            if(maxdays < days && !isRankIgnored(i, ranks, size)) {
+                patientmax = patient;
+                rank = i;
+            }
+        }
+    }
+    return rank;
+}
+
+int getOldestAgeBySex(PtList list, char *sex, int listSize) {
+    Patient patient, patientmax;
+    int age, maxage;
+    listGet(list, 0, &patientmax);
+    for(int i = 0; i < listSize; i++) {
+        listGet(list, i, &patient);
+        if(strcmp(patient.status, "deceased\n") != 0 && strcmp(patient.sex, sex) == 0 && patient.birthYear != -1) {
+            maxage = getAge(patientmax);
+            age = getAge(patient);
+            if(maxage < age) {
+                patientmax = patient;
+                maxage = age;
+            }
+        }
+    }
+    return maxage;
+}
+
+int isRankIgnored(int rank, int *arr, int size) {
+    for(int i = 0; i < size; i++) {
+        if(rank == arr[i]) return 1;
+    }
+    return 0;
 }

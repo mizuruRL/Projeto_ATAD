@@ -12,6 +12,7 @@
 #include <locale.h>
 #include "project.h"
 
+typedef char String[255];
 
 int main(int argc, char** argv){
     String command;
@@ -33,7 +34,7 @@ int main(int argc, char** argv){
 		}
 		else if (equalsStringIgnoreCase(command, "LOADP")) {
 			commandLoadP(&patients);
-			listPrint(patients);
+			
 		}
 		else if (equalsStringIgnoreCase(command, "LOADR")) {
 			commandLoadR(&regions);
@@ -65,10 +66,10 @@ int main(int argc, char** argv){
 			commandShow(patients,atol(id));
 		}
 		else if (equalsStringIgnoreCase(command, "TOP5")) {
-			printf("Comando TOP5 nao implementado.\n");
+			commandTop5(patients);
 		}
 		else if (equalsStringIgnoreCase(command, "OLDEST")) {
-			printf("Comando OLDEST nao implementado.\n");
+			commandOldest(patients);
 		}
 		else if (equalsStringIgnoreCase(command, "GROWTH")) {
 			printf("Comando GROWTH nao implementado.\n");

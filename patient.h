@@ -21,5 +21,4 @@ Patient createPatient(long int id, char *sex, int birthYear, char* country, char
 void printPatient(Patient p);
 int getAge(Patient p);
 int getNumberOfInfectedDays(Patient p);
-int getDifference(Date old, Date recent);
 int stringIsBlank(char *str);

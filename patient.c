@@ -28,7 +28,7 @@ Patient createPatient(long int id, char* sex, int birthYear, char* country, char
 }
 
 void printPatient(Patient p){
-
+    int days = getNumberOfInfectedDays(p);
     printf("###############  Patient  ###############\n\n");
     printf("ID: %ld\n",p.id);
     printf("SEX: %s\n",p.sex);
@@ -36,9 +36,10 @@ void printPatient(Patient p){
     printf("COUNTRY/REGION: %s/%s \n",p.country,p.region);
     printf("INFECTION REASON: %s\n",p.infectionReason);
     printf("STATE: %s\n",p.status);
-    printf("NUMBER OF DAYS WITH ILLNESS: 1\n\n");
+    printf("NUMBER OF DAYS WITH ILLNESS: %d\n\n", days);
     printf("#########################################\n");
 }
+
 int getAge(Patient p){
     if(p.birthYear == -1) return p.birthYear;
     time_t now = time(NULL);
@@ -49,48 +50,36 @@ int getAge(Patient p){
 }
 
 int getNumberOfInfectedDays(Patient p){
-    int totalDays = 0;
-    time_t now;
+    time_t now = time(NULL);
     struct tm *local = localtime(&now);
     int currentDay = local->tm_mday;
-    int currentMonth = local->tm_mon;
+    int currentMonth = local->tm_mon + 1;
     int currentYear = local->tm_year + 1900;
-    if(p.deceasedDate.day == 0 && p.deceasedDate.month == 0 && p.deceasedDate.year == 0){
 
-        if(p.releasedDate.day == 0 && p.releasedDate.month == 0 && p.releasedDate.year == 0){
-
-            Date old = {p.confirmedDate.day,p.confirmedDate.month,p.confirmedDate.year};
-            Date recent = {currentDay,currentMonth,currentYear};
-            totalDays = getDifference(old,recent);
-
-        }else{
-
-            Date old = {p.confirmedDate.day,p.confirmedDate.month,p.confirmedDate.year};
-            Date recent = {p.releasedDate.day,p.releasedDate.month,p.releasedDate.year};
-            totalDays = getDifference(old,recent);
-            
-        }
-
-    }else{
-
-        Date old = {currentDay,currentMonth,currentYear};
-        Date recent = {p.deceasedDate.day,p.deceasedDate.month,p.deceasedDate.year};
-        totalDays = getDifference(old,recent);
-
+    if(strcmp(p.status, "deceased\n") == 0) {
+        Date old = createDate(p.confirmedDate.day,p.confirmedDate.month,p.confirmedDate.year);
+        Date recent = createDate(p.deceasedDate.day,p.deceasedDate.month,p.deceasedDate.year);
+        time_t d1 = dateToTimeT(old);
+        time_t d2 = dateToTimeT(recent);
+        return getDayDifference(d2, d1) - 1;
     }
-    return totalDays;
-}
 
-int getDifference(Date old, Date recent){ 
-    int countDays = 0;
-    int countMonths = 0;
-    int countYears = 0;
+     if(strcmp(p.status, "released\n") == 0) {
+        Date old = createDate(p.confirmedDate.day,p.confirmedDate.month,p.confirmedDate.year);
+        Date recent = createDate(p.releasedDate.day,p.releasedDate.month,p.releasedDate.year);
+        time_t d1 = dateToTimeT(old);
+        time_t d2 = dateToTimeT(recent);
+        return getDayDifference(d2, d1) - 1;
+    }
 
-    countYears = recent.year - old.year;
-    countMonths = recent.month - old.month;
-    countDays = recent.day - old.day; 
-
-    return countYears + countMonths + countDays;
+    if(strcmp(p.status, "isolated\n") == 0) {
+        Date old = createDate(p.confirmedDate.day,p.confirmedDate.month,p.confirmedDate.year);
+        Date current = createDate(currentDay,currentMonth,currentYear);
+        time_t d1 = dateToTimeT(old);
+        time_t d2 = dateToTimeT(current);
+        return getDayDifference(d2, d1) - 1;
+    }
+    return 0;
 }
 
 int stringIsBlank(char *str) {
