@@ -22,3 +22,4 @@ void printPatient(Patient p);
 int getAge(Patient p);
 double getNumberOfInfectedDays(Patient p);
 int stringIsBlank(char *str);
+char getStatus(Patient p);

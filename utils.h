@@ -11,3 +11,4 @@ int listGetById(PtList list, long int id, ListElem *ptElem);
 void printTopNReleased(PtList list, int n, int listSize);
 int isRankIgnored(int rank, int *arr, int size);
 int getOldestAgeBySex(PtList list, char *sex, int listSize);
+void showStatusStatsByAge(PtList list, int listSize, int lowerlim, int upperlim);

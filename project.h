@@ -24,7 +24,7 @@ void commandOldest(PtList list);
 
 void commandGrowth();
 
-void commandMatrix();
+void commandMatrix(PtList list);
 
 void commandRegions();
 

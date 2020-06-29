@@ -65,22 +65,30 @@ void commandAverage(PtList list){
         listGet(list,i,&patient);
 		age = getAge(patient);
         if(age != -1){
-            if(strcmp(patient.status,"released\n") == 0){
-                        countReleasedTotal++;
-                        countReleasedAges+=getAge(patient);
-            }else if(strcmp(patient.status,"isolated\n") == 0){
-                        countIsolatedTotal++;
-                        countIsolatedAges+=getAge(patient);
-            }else if(strcmp(patient.status,"deceased\n") == 0){
-                        countDeceasedTotal++;
-                        countDeceasedAges+=getAge(patient);
+            switch (getStatus(patient)) {
+            case 'r':
+                countReleasedTotal++;
+                countReleasedAges+=getAge(patient);
+                break;
+            
+            case 'd':
+                countDeceasedTotal++;
+                countDeceasedAges+=getAge(patient);
+                break;
+
+            case 'i':
+                countIsolatedTotal++;
+                countIsolatedAges+=getAge(patient);
+                break;
+            default:
+                break;
             }
         }
     }
     
-    printf("\nAverage Age for deceased patients: %.0f\n",(double)countDeceasedAges/(double)countDeceasedTotal);
-    printf("\nAverage Age for released patients: %.0f\n",(double)countReleasedAges/(double)countReleasedTotal);
-    printf("\nAverage Age for isolated patients: %.0f\n",(double)countIsolatedAges/(double)countIsolatedTotal);
+    printf("\nAverage Age for deceased patients: %.0f%%\n",(double)countDeceasedAges/(double)countDeceasedTotal);
+    printf("\nAverage Age for released patients: %.0f%%\n",(double)countReleasedAges/(double)countReleasedTotal);
+    printf("\nAverage Age for isolated patients: %.0f%%\n",(double)countIsolatedAges/(double)countIsolatedTotal);
 }
 
 void commandFollow(PtList list, long int id){
@@ -243,8 +251,28 @@ void commandGrowth(){
     
 }
 
-void commandMatrix(){
+void commandMatrix(PtList list){
+    int size = 0;
+    int errorCode = listSize(list, &size);
+
+    if(errorCode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(size == 0) {
+        printf("Patients list is empty");
+        return;
+    }
     
+    Patient p;
+    int upperLim = 15, lowerLim = 0;
+    printf("%19s%11s%11s", "Isolated", "Deceased", "Released");
+    for(int i = 0; i < 6; i++) {
+        showStatusStatsByAge(list, size, lowerLim, upperLim);
+        lowerLim = upperLim + 1;
+        upperLim += 15;
+    }
 }
 
 void commandRegions(){

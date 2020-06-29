@@ -212,7 +212,7 @@ int getOldestAgeBySex(PtList list, char *sex, int listSize) {
     listGet(list, 0, &patientmax);
     for(int i = 0; i < listSize; i++) {
         listGet(list, i, &patient);
-        if(strcmp(patient.status, "deceased\n") != 0 && strcmp(patient.sex, sex) == 0 && patient.birthYear != -1) {
+        if(getStatus(patient) != 'd' && strcmp(patient.sex, sex) == 0 && patient.birthYear != -1) {
             maxage = getAge(patientmax);
             age = getAge(patient);
             if(maxage < age) {
@@ -222,6 +222,42 @@ int getOldestAgeBySex(PtList list, char *sex, int listSize) {
         }
     }
     return maxage;
+}
+
+void showStatusStatsByAge(PtList list, int listSize, int lowerlim, int upperlim) {
+    int isolated = 0, deceased = 0, released = 0;
+    Patient p;
+    if (upperlim > 89) upperlim = 999;
+    for(int i = 0; i < listSize; i++) {
+        listGet(list, i, &p);
+        int age = getAge(p);
+        if(age >= lowerlim && age <= upperlim) {
+            switch (getStatus(p)) {
+            case 'i':
+                isolated++;
+                break;
+            
+            case 'd':
+                deceased++;
+                break;
+
+            case 'r':
+                released++;
+                break;
+
+            default:
+                break;
+            }
+        }
+    }
+
+    if (upperlim > 89){
+        printf("\n[%-2d - ...] ", lowerlim);
+    } else {
+        printf("\n[%-2d - %-3d] ", lowerlim, upperlim);
+        }
+
+    printf("| %-8d | %-8d | %-8d |", isolated, deceased, released);
 }
 
 int isRankIgnored(int rank, int *arr, int size) {

@@ -81,3 +81,10 @@ int stringIsBlank(char *str) {
     }
     return 1;
 }
+
+char getStatus(Patient p) {
+    if(strcmp(p.status, "isolated\n") == 0) return 'i';
+    if(strcmp(p.status, "released\n") == 0) return 'r';
+    if(strcmp(p.status, "deceased\n") == 0) return 'd';
+    return 'u';
+}
