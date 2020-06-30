@@ -1,3 +1,13 @@
+/* PROJETO  ATAD 2019-20
+* Identificacao dos Alunos:
+*
+*      Numero: 190221068 | Nome: André Dias
+*      Numero: 190221029 | Nome: Tomás Barroso
+* Professora PL:
+*
+*       Patrícia Macedo
+*/
+
 /**
  * @file mapElem.h
  * @brief Defines the types MapKey and MapValue.
@@ -14,13 +24,15 @@
  * @bug No known bugs.
  */
 
+
 #pragma once
 
 #include <stdbool.h>
+#include "key.h"
 #include "region.h"
 
 /** Key type definition. Change according to the use-case. */
-typedef char* MapKey;
+typedef KeyString MapKey;
 
 /** Value type definition. Change according to the use-case. */
 typedef Region MapValue;

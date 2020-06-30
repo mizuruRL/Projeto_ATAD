@@ -1,3 +1,13 @@
+/* PROJETO  ATAD 2019-20
+* Identificacao dos Alunos:
+*
+*      Numero: 190221068 | Nome: André Dias
+*      Numero: 190221029 | Nome: Tomás Barroso
+* Professora PL:
+*
+*       Patrícia Macedo
+*/
+
 /**
  * @file mapElem.c
  * @brief Implements operations for types MapKey and MapValue.
@@ -8,9 +18,10 @@
 
 #include "mapElem.h"
 #include <stdio.h>
+#include <string.h>
 
 void mapKeyPrint(MapKey key) {
-	printf("%s \n", key);
+	printf("%s \n", key.content);
 }
 
 void mapValuePrint(MapValue value) {
@@ -18,6 +29,5 @@ void mapValuePrint(MapValue value) {
 }
 
 bool mapKeyEquals(MapKey key1, MapKey key2) {
-	// in case of integer keys:
-	return (key1 == key2); 
+	return !strcmp(key1.content, key2.content); 
 }
