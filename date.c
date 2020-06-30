@@ -1,3 +1,23 @@
+/* PROJETO  ATAD 2019-20
+* Identificacao dos Alunos:
+*
+*      Numero: 190221068 | Nome: André Dias
+*      Numero: 190221029 | Nome: Tomás Barroso
+* Professora PL:
+*
+*       Patrícia Macedo
+*/
+
+/**
+ * @file date.c
+ * @author André Dias, Tomás Barroso
+ * @brief Implements functions defined in date.h
+ * @version 0.1
+ * @date 2020-06-30
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "date.h"
@@ -20,8 +40,8 @@ void printDate(Date date){
 time_t dateToTimeT(Date date){ 
     struct tm d1;
 
-    d1.tm_year = date.year;
-    d1.tm_mon = date.month;
+    d1.tm_year = date.year - 1900;
+    d1.tm_mon = date.month - 1;
     d1.tm_mday = date.day;
     d1.tm_min = 0;
     d1.tm_sec = 0;
@@ -39,7 +59,7 @@ time_t dateToTimeT(Date date){
 double getDayDifference(time_t dateEnd, time_t dateStart) {
     double difference = difftime(dateEnd, dateStart);
     difference = difference/86400;
-    return difference - 1;
+    return difference;
 }
 
 int dateUnknown(Date date) {

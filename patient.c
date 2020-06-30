@@ -1,3 +1,13 @@
+/* PROJETO  ATAD 2019-20
+* Identificacao dos Alunos:
+*
+*      Numero: 190221068 | Nome: André Dias
+*      Numero: 190221029 | Nome: Tomás Barroso
+* Professora PL:
+*
+*       Patrícia Macedo
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -80,4 +90,11 @@ int stringIsBlank(char *str) {
         i++;
     }
     return 1;
+}
+
+char getStatus(Patient p) {
+    if(strcmp(p.status, "isolated\n") == 0) return 'i';
+    if(strcmp(p.status, "released\n") == 0) return 'r';
+    if(strcmp(p.status, "deceased\n") == 0) return 'd';
+    return 'u';
 }
