@@ -3,6 +3,7 @@
 *
 *      Numero: 190221068 | Nome: André Dias
 *      Numero: 190221029 | Nome: Tomás Barroso
+*      Turma: EI-01
 * Professora PL:
 *
 *       Patrícia Macedo
@@ -30,7 +31,7 @@ void menu() {
 	printf("\n===================================================================================");
 	printf("\nA. Base Commands (LOADP, LOADR, CLEAR).");
 	printf("\nB. Simple Indicators and searchs (AVERAGE, FOLLOW, MATRIX, OLDEST, GROWTH, SEX, SHOW, TOP5)");
-	printf("\nC. Advanced indicator (REGIONS, REPORTS)");
+	printf("\nC. Advanced indicator (REGIONS, REPORT)");
 	printf("\nD. Exit (QUIT)\n\n");
 	printf("COMMAND> ");
 }

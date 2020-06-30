@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['projeto_5fatad',['Projeto_ATAD',['../autotoc_md0.html',1,'']]],
   ['patient',['patient',['../structpatient.html',1,'patient'],['../patient_8h.html#af8f0f6beb4027698c3f5af7a657ecfa7',1,'Patient():&#160;patient.h']]],
   ['patient_2ec',['patient.c',['../patient_8c.html',1,'']]],
   ['patient_2eh',['patient.h',['../patient_8h.html',1,'']]],
