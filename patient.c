@@ -1,3 +1,13 @@
+/* PROJETO  ATAD 2019-20
+* Identificacao dos Alunos:
+*
+*      Numero: 190221068 | Nome: André Dias
+*      Numero: 190221029 | Nome: Tomás Barroso
+* Professora PL:
+*
+*       Patrícia Macedo
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

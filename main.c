@@ -3,14 +3,16 @@
 *
 *      Numero: 190221068 | Nome: André Dias
 *      Numero: 190221029 | Nome: Tomás Barroso
+* Professora PL:
 *
+*       Patrícia Macedo
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
-#include "project.h"
+#include "commandsImpl.h"
 
 typedef char String[255];
 
@@ -82,10 +84,10 @@ int main(int argc, char** argv){
 			commandMatrix(patients);
 		}
 		else if (equalsStringIgnoreCase(command, "REGIONS")) {
-			printf("Comando REGIONS nao implementado.\n");
+			commandRegions(patients, regions);
 		}	
 		else if (equalsStringIgnoreCase(command, "REPORT")) {
-			printf("Comando REPORT nao implementado.\n");
+			commandReport(regions, patients);
 		}
 		else {
 			printf("%s : Comando não encontrado.\n", command);

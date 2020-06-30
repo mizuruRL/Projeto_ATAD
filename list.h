@@ -1,3 +1,13 @@
+/* PROJETO  ATAD 2019-20
+* Identificacao dos Alunos:
+*
+*      Numero: 190221068 | Nome: André Dias
+*      Numero: 190221029 | Nome: Tomás Barroso
+* Professora PL:
+*
+*       Patrícia Macedo
+*/
+
 /**
  * @file list.h
  * @brief Definition of the ADT List in C.

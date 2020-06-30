@@ -1,7 +1,28 @@
+/* PROJETO  ATAD 2019-20
+* Identificacao dos Alunos:
+*
+*      Numero: 190221068 | Nome: André Dias
+*      Numero: 190221029 | Nome: Tomás Barroso
+* Professora PL:
+*
+*       Patrícia Macedo
+*/
+
+
+/**
+ * @file commandsImpl.c
+ * @author André Dias, Tomás Barroso
+ * @brief Implements the commands in commandsImpl.h
+ * @version 0.1
+ * @date 2020-06-30
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "project.h"
+#include "commandsImpl.h"
 
 void menu() {
 	printf("\n===================================================================================");
@@ -289,10 +310,141 @@ void commandMatrix(PtList list){
     }
 }
 
-void commandRegions(){
+void commandRegions(PtList list, PtMap map){
+    int lSize = 0;
+    int mSize = 0;
+    int arrSize = 0;
+    int lerrorCode = listSize(list, &lSize);
+    int merrorCode = mapSize(map, &mSize);
+
+    if(lerrorCode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(lSize == 0) {
+        printf("Patients list is empty");
+        return;
+    }
+
+    if(merrorCode == MAP_NULL) {
+        printf("Regions list wasn't loaded");
+        return;
+    }
+
+    if(mSize == 0) {
+        printf("Regions list is empty");
+        return;
+    }
+
+    char **str = (char**)malloc(20*sizeof(char*)); //Allocate memory for string array to hold region names
+     for(int i = 0; i < 20; i++){
+        str[i] = (char*)malloc(50*sizeof(char)); //Allocate memory for each string
+    }
     
+    Patient patient;
+    MapValue mapValue;
+    KeyString key;
+    for(int i = 0; i < lSize; i++){
+        listGet(list,i,&patient);
+        if(getStatus(patient) == 'i'){ //Check if patient is isolated (still infected)
+            key = createKey(patient.region); //Get the key from the patient
+            mapGet(map, key, &mapValue); 
+            if(!stringIsRepeated(str, arrSize, key.content)) { //Check if the region name already exists inside the array
+                strcpy(str[arrSize],key.content);
+                arrSize++;
+            }
+        }
+    }
+
+    orderStringArrAlphaBBsort(str, arrSize); //Sort the region names array alphabetically
+
+    printf("\nActive regions (alphabetically): \n\n"); //print the region names
+    for(int i = 0; i < arrSize; i++){
+        key = createKey(str[i]);
+        mapKeyPrint(key);
+    }
+    
+    for(int i = 0; i < 20; i++){ //Free memory allocated from the strings
+        free(str[i]);
+    }
+    free(str);//Free the array pointer
 }
 
-void commandReport(){
+void commandReport(PtMap map, PtList list){
+    int mSize = 0, lSize = 0;
+    int mErrorCode = mapSize(map,&mSize);
+    int lErrorCode = listSize(list,&lSize);
+
+    if(lErrorCode == LIST_NULL) {
+        printf("Patients list wasn't loaded");
+        return;
+    }
+
+    if(lSize == 0) {
+        printf("Patients list is empty");
+        return;
+    }
+
+    if(mErrorCode == MAP_NULL) {
+        printf("Regions list wasn't loaded");
+        return;
+    }
+
+    if(mSize == 0) {
+        printf("Regions list is empty");
+        return;
+    }
     
+    FILE * fPtr;
+
+    fPtr = fopen("files/report.txt", "w");
+
+    if(fPtr == NULL){
+        /* File not created hence exit */
+        printf("\nReport not created.\n\n");
+        return;
+    }else{
+        printf("\nReport created.\n\n");
+    }
+
+    int deaths = 0, infected = 0;
+    double mortality = 0, incidentRate = 0, lethality = 0;
+
+    MapKey* keys = mapKeys(map);
+
+    Patient patient;
+    for(int i = 0; i < mSize; i++) {
+        for(int j = 0; j < lSize; j++) {
+            listGet(list, j, &patient);
+            if(strcmp(keys[i].content, patient.region) == 0) {
+                switch (getStatus(patient)) {
+                case 'd':
+                    deaths++;
+                    break;
+                
+                case 'i':
+                    infected++;
+                    break;
+
+                default:
+                    break;
+                }
+            }
+        }
+        MapValue value;
+        mapGet(map,keys[i],&value);
+        mortality = ((double)deaths/(double)(value.population) * 10000);
+        lethality = ((double)deaths/(double)lSize)* 100;
+        incidentRate = ((double)infected/(double)value.population) * 100;
+
+        if(mortality == 0 && lethality == 0 && incidentRate == 0) {
+            printf("Unknown region (no population data)\n");
+        } else {
+            printf("%s Mortality: %.3f %%  Incident Rate: %.3f %%  Lethality: %.3f %%\n",keys[i].content, mortality, incidentRate, lethality);
+            fprintf(fPtr,"%s Mortality: %.3f %%  Incident Rate: %.3f %%  Lethality: %.3f %%\n",keys[i].content, mortality, incidentRate, lethality);
+        }
+    }
+    free(keys);
+    fclose(fPtr);
 }
